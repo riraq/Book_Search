@@ -44,12 +44,8 @@ function Search() {
   function handleFormSubmit(event) {
     event.preventDefault();
     if (formObject.title) {
-      API.saveBook({
-        title: formObject.title,
-        author: formObject.author,
-        synopsis: formObject.synopsis
-      })
-        .then(res => loadBooks())
+      API.searchBooks(formObject.title)
+        .then(res => console.log(res))
         .catch(err => console.log(err));
     }
   };
@@ -72,7 +68,7 @@ function Search() {
               disabled={!(formObject.title)}
               onClick={handleFormSubmit}
             >
-              Submit Book
+              Search
             </FormBtn>
           </form>
           {/* <List>
