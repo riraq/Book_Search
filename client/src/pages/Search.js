@@ -20,7 +20,7 @@ function Search() {
   // Loads all books and sets them to books
   function loadBooks() {
     API.getBooks()
-      .then(res => 
+      .then(res =>
         setBooks(res.data)
       )
       .catch(err => console.log(err));
@@ -36,14 +36,14 @@ function Search() {
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
-    setFormObject({...formObject, [name]: value})
+    setFormObject({ ...formObject, [name]: value })
   };
 
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.title && formObject.author) {
+    if (formObject.title) {
       API.saveBook({
         title: formObject.title,
         author: formObject.author,
@@ -54,43 +54,28 @@ function Search() {
     }
   };
 
-    return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                onChange={handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                onChange={handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                onChange={handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(formObject.author && formObject.title)}
-                onClick={handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {books.length ? (
-              <List>
+  return (
+    <Container fluid>
+      <Row>
+        <Col size="md-12">
+          <Jumbotron>
+            <h1>Google Books Search (React)</h1>
+            <h3>Search for and Save books</h3>
+          </Jumbotron>
+          <form>
+            <Input
+              onChange={handleInputChange}
+              name="title"
+              placeholder="Search for a Book"
+            />
+            <FormBtn
+              disabled={!(formObject.title)}
+              onClick={handleFormSubmit}
+            >
+              Submit Book
+            </FormBtn>
+          </form>
+          {/* <List>
                 {books.map(book => (
                   <ListItem key={book._id}>
                     <Link to={"/books/" + book._id}>
@@ -101,15 +86,12 @@ function Search() {
                     <DeleteBtn onClick={() => deleteBook(book._id)} />
                   </ListItem>
                 ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+              </List> */}
+        </Col>
+      </Row>
+    </Container>
+  );
+}
 
 
 export default Search;
