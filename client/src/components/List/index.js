@@ -11,6 +11,13 @@ export function List({ children }) {
   );
 }
 
-export function ListItem({ children }) {
-  return <li className="list-group-item">{children}</li>;
+export function ListItem(props) {
+  return <li className="list-group-item">
+    <h1>{props.title}</h1>
+    <a href={props.link} target="blank"><button>View</button></a>
+    <button>Save</button>
+    <p>Author: {props.author}</p>
+    <img src={props.image} />
+    <p>{props.description}</p>
+    </li>;
 }

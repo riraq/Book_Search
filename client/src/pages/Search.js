@@ -5,11 +5,11 @@ import API from "../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import { Input, FormBtn } from "../components/Form";
 
 function Search() {
   // Setting our component's initial state
-  const [books, setBooks] = useState([])
+  const [books, setBooks] = useState({})
   const [formObject, setFormObject] = useState({})
 
   // Load all books and store them with setBooks
@@ -45,7 +45,18 @@ function Search() {
     event.preventDefault();
     if (formObject.title) {
       API.searchBooks(formObject.title)
-        .then(res => console.log(res))
+        .then(res => {
+          setBooks(res.data.items.map(book => (
+            {
+              "id": book.id,
+              "title": book.volumeInfo.title,
+              "author": book.volumeInfo.authors,
+              "description": book.volumeInfo.description,
+              "image": book.volumeInfo.imageLinks.thumbnail,
+              "link": book.volumeInfo.infoLink
+            }
+          )))
+        })
         .catch(err => console.log(err));
     }
   };
@@ -71,18 +82,23 @@ function Search() {
               Search
             </FormBtn>
           </form>
-          {/* <List>
-                {books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List> */}
+          {books.length ?
+            (<List>
+            {books.map(book => (
+              <ListItem
+                key={book.id}
+                title={book.title}
+                author={book.author}
+                description={book.description}
+                image={book.image}
+                link={book.link}
+              />
+            ))}
+          </List>
+          ) : (
+            <div></div>
+          )
+        }
         </Col>
       </Row>
     </Container>
