@@ -51,7 +51,7 @@ function Search() {
               "id": book.id,
               "title": book.volumeInfo.title,
               "author": book.volumeInfo.authors,
-              "description": book.volumeInfo.description,
+              "description": book.volumeInfo.description || "",
               "image": book.volumeInfo.imageLinks.thumbnail,
               "link": book.volumeInfo.infoLink
             }
@@ -64,6 +64,7 @@ function Search() {
   function handleBookSave(event) {
     event.preventDefault();
     const bookValues = event.target.attributes
+    console.log("bookValues: ", bookValues)
     API.saveBook({
       id: bookValues.id.value,
       title: bookValues.title.value,

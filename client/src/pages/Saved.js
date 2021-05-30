@@ -11,17 +11,26 @@ function Saved(props) {
   // When this component mounts, grab the book with the _id of props.match.params.id
   // e.g. localhost:3000/books/599dcb67f0f16317844583fc
   const {id} = useParams()
+
+  // Load all books and store them with setBooks
   useEffect(() => {
-    API.getBooks()
-      .then(res => setBook(res.data))
-      .catch(err => console.log(err));
+    loadBooks()
   }, [])
+
+  // Loads all books and sets them to books
+  function loadBooks() {
+    API.getBooks()
+      .then(res => 
+        setBook(res.data)
+      )
+      .catch(err => console.log(err));
+  };
 
   function handleBookDelete(id) {
     API.deleteBook(id)
     .then(
       API.getBooks()
-      .then(res => setBook(res.data))
+      .then(res => loadBooks())
       .catch(err => console.log(err))
     )
   }
@@ -43,13 +52,13 @@ function Saved(props) {
             {book.map(book => (
               <ListItem
                 key={book._id}
-                id={book.id}
+                id={book._id}
                 title={book.title}
                 author={book.author}
                 description={book.description}
                 image={book.image}
                 link={book.link}
-                onClick={() => handleBookDelete(book.id)}
+                onClick={() => handleBookDelete(book._id)}
               >Delete</ListItem>
             ))}
           </List>
