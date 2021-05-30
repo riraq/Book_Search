@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import { List, ListItem } from "../components/List"
 
 function Saved(props) {
   const [book, setBook] = useState({})
@@ -11,10 +12,19 @@ function Saved(props) {
   // e.g. localhost:3000/books/599dcb67f0f16317844583fc
   const {id} = useParams()
   useEffect(() => {
-    API.getBook(id)
+    API.getBooks()
       .then(res => setBook(res.data))
       .catch(err => console.log(err));
   }, [])
+
+  function handleBookDelete(id) {
+    API.deleteBook(id)
+    .then(
+      API.getBooks()
+      .then(res => setBook(res.data))
+      .catch(err => console.log(err))
+    )
+  }
 
   return (
       <Container fluid>
@@ -22,24 +32,35 @@ function Saved(props) {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {book.title} by {book.author}
+                Saved Results
               </h1>
             </Jumbotron>
           </Col>
         </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
-            <article>
-              <h1>Synopsis</h1>
-              <p>
-                {book.synopsis}
-              </p>
-            </article>
+          <Col size="md-12 md-offset-1">
+          {book.length ?
+            (<List>
+            {book.map(book => (
+              <ListItem
+                key={book._id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                description={book.description}
+                image={book.image}
+                link={book.link}
+                onClick={() => handleBookDelete(book.id)}
+              >Delete</ListItem>
+            ))}
+          </List>
+          ) : (
+            <div></div>
+          )
+        }
           </Col>
-        </Row>
         <Row>
           <Col size="md-2">
-            <Link to="/">← Back to Authors</Link>
+            <Link to="/">← Back to Search</Link>
           </Col>
         </Row>
       </Container>

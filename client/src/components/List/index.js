@@ -15,7 +15,7 @@ export function ListItem(props) {
   return <li className="list-group-item">
     <h1>{props.title}</h1>
     <a href={props.link} target="blank"><button>View</button></a>
-    <button { ...props }>Save</button>
+    <button { ...props }>{props.children}</button>
     <p>Author: {props.author}</p>
     <img src={props.image} alt=""/>
     <p>{props.description}</p>
