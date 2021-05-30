@@ -7,7 +7,7 @@
 - [Function](#Function)
 - [Screenshots](#Screenshots)
 ## Live Link
-https://riraq.github.io/Employee_Database/
+https://desolate-dawn-13561.herokuapp.com/
 ## Repository Link
 https://github.com/riraq/Book_Search
 ## Code Description
