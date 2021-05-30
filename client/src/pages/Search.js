@@ -84,7 +84,7 @@ function Search() {
             <h1>Google Books Search (React)</h1>
             <h3>Search for and Save books</h3>
           </Jumbotron>
-          <form>
+          <form className="row d-flex justify-content-center">
             <Input
               onChange={handleInputChange}
               name="title"

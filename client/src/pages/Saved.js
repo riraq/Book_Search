@@ -63,7 +63,7 @@ function Saved(props) {
             ))}
           </List>
           ) : (
-            <div></div>
+            <h3 className="col text-center">Nothing saved yet!</h3>
           )
         }
           </Col>
