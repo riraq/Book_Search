@@ -12,7 +12,6 @@ export function List({ children }) {
 }
 
 export function ListItem(props) {
-  console.log("book description: ", props)
   return <li className="list-group-item">
     <h1>{props.title}</h1>
     <a href={props.link} target="blank"><button>View</button></a>

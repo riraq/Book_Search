@@ -64,7 +64,6 @@ function Search() {
   function handleBookSave(event) {
     event.preventDefault();
     const bookValues = event.target.attributes
-    console.log("bookValues: ", bookValues)
     API.saveBook({
       id: bookValues.id.value,
       title: bookValues.title.value,
