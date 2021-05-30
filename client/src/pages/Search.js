@@ -12,26 +12,26 @@ function Search() {
   const [books, setBooks] = useState({})
   const [formObject, setFormObject] = useState({})
 
-  // Load all books and store them with setBooks
-  useEffect(() => {
-    loadBooks()
-  }, [])
+  // // Load all books and store them with setBooks
+  // useEffect(() => {
+  //   loadBooks()
+  // }, [])
 
-  // Loads all books and sets them to books
-  function loadBooks() {
-    API.getBooks()
-      .then(res =>
-        setBooks(res.data)
-      )
-      .catch(err => console.log(err));
-  };
+  // // Loads all books and sets them to books
+  // function loadBooks() {
+  //   API.getBooks()
+  //     .then(res =>
+  //       setBooks(res.data)
+  //     )
+  //     .catch(err => console.log(err));
+  // };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
-  function deleteBook(id) {
-    API.deleteBook(id)
-      .then(res => loadBooks())
-      .catch(err => console.log(err));
-  }
+  // // Deletes a book from the database with a given id, then reloads books from the db
+  // function deleteBook(id) {
+  //   API.deleteBook(id)
+  //     .then(res => loadBooks())
+  //     .catch(err => console.log(err));
+  // }
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
@@ -48,7 +48,7 @@ function Search() {
         .then(res => {
           setBooks(res.data.items.map(book => (
             {
-              "id": book.id,
+              "_id": book.id,
               "title": book.volumeInfo.title,
               "author": book.volumeInfo.authors,
               "description": book.volumeInfo.description,
@@ -60,6 +60,20 @@ function Search() {
         .catch(err => console.log(err));
     }
   };
+
+  function handleBookSave(event) {
+    event.preventDefault();
+    const bookValues = event.target.attributes
+    API.saveBook({
+      _id: bookValues.key.value,
+      title: bookValues.title.value,
+      author: bookValues.author.value,
+      description: bookValues.description.value,
+      image: bookValues.image.value,
+      link: bookValues.link.value
+    })
+    .catch(err => console.log(err));
+  }
 
   return (
     <Container fluid>
@@ -86,12 +100,13 @@ function Search() {
             (<List>
             {books.map(book => (
               <ListItem
-                key={book.id}
+                key={book._id}
                 title={book.title}
                 author={book.author}
                 description={book.description}
                 image={book.image}
                 link={book.link}
+                onClick={handleBookSave}
               />
             ))}
           </List>
