@@ -48,7 +48,7 @@ function Search() {
         .then(res => {
           setBooks(res.data.items.map(book => (
             {
-              "_id": book.id,
+              "id": book.id,
               "title": book.volumeInfo.title,
               "author": book.volumeInfo.authors,
               "description": book.volumeInfo.description,
@@ -65,7 +65,7 @@ function Search() {
     event.preventDefault();
     const bookValues = event.target.attributes
     API.saveBook({
-      _id: bookValues.key.value,
+      id: bookValues.id.value,
       title: bookValues.title.value,
       author: bookValues.author.value,
       description: bookValues.description.value,
@@ -100,7 +100,8 @@ function Search() {
             (<List>
             {books.map(book => (
               <ListItem
-                key={book._id}
+                key={book.id}
+                id={book.id}
                 title={book.title}
                 author={book.author}
                 description={book.description}
